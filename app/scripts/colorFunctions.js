@@ -15,7 +15,12 @@ function andColor(value) {
 }
 
 function sinColor(value) {
-    return [Math.sin(value * .05) * 100, Math.sin(value * .05) * 100, Math.sin(value * .05) * 100, 255];
+    let gammaAdj = 70;
+    let redPart = 10.9;
+    let greenPart = 5.9;
+    let bluePart = 20.5
+
+    return [(Math.sin(value * redPart) * 100) + gammaAdj, (Math.sin(value * greenPart) * 100) - gammaAdj, (Math.sin(value * bluePart) * 100) + gammaAdj, 255];
 }
 
 function tanColor(value) {
