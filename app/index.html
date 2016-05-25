@@ -8,6 +8,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
         <link href="styles/vendor/bootstrap.min.css" rel="stylesheet"/>
         <link href="styles/vendor/bootstrap-theme.min.css" rel="stylesheet"/>
 
@@ -15,6 +16,8 @@
         <script src="scripts/vendor/bootstrap.min.js"></script>
         <script src="scripts/vendor/angular.min.js"></script>
         <script src  ="app.js"></script>
+        <script src = "scripts/distanceFunctions.js"></script>
+        <script src = "scripts/colorFunctions.js"></script>
         <script src = "scripts/controllers/worleyCtrl.js"></script>
 
         <title>My AngularJS App</title>
@@ -24,11 +27,16 @@
 
             <div >
                 <h1>Worley Noise Generator</h1>
-                <p class="lead">Generates Worley Noise</p>
+            
+                <p class="lead" ng-show="generator.refreshing" ng-hide="!generator.refreshing">Refreshing...
+                    <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+                </p>
             </div>
 
-            <canvas id="canvas" width="1137" height="768" style="border:1px solid #000000;">
+            <canvas id="canvas" width="1137" height="600" style="border:1px solid #000000;">
+            
             </canvas>
+            
 
 
             <div class="panel panel-default">
@@ -36,31 +44,44 @@
                     <h3 class="panel-title">Controls</h3>
                 </div>
                 <div class="panel-body">
-                    <form class="navbar-form navbar-left" ng-submit="generator.nextImage()">
+                    <form class="navbar-form navbar-left" ng-submit="generator.nextImage();">
                         <div class="form-group">
                             <label for="distanceDropDown">Distance Method:</label>
-                            <select id="distanceDropDown">
-                                <option value="euclidean" ng-model="generator.euclideanDistance">Euclidean</option>
-                                <option value="manhatten" ng-model="generator.manhattenDistance">Manhatten</option>
-                                <option value="orth_euclidean" ng-model="generator.orthEuclideanDistance">Orthogonal(Euclidean)</option>
-                                <option value="orth_manhatten" ng-model="generator.orthManhattenDistance">Orthogonal(Manhatten)</option>
+                            <select id="distanceDropDown" ng-model="generator.distanceFunctionSel">
+                                <option value="euclidean" >Euclidean</option>
+                                <option value="manhattan" >Manhattan</option>
+                                <option value="chebyshev">Chebyshev</option>
+                                <option value="other">Other</option>
+                                <option value="orthChebyshev">OrthChebyshev</option>
+
+                                <option value="orthOther">Orthogonal(Other)</option>
+                                <option value="orthEuclidean">Orthogonal(Euclidean)</option>
+                                <option value="orthManhattan">Orthogonal(Manhattan)</option>
                             </select>
                         </div>
                         <br/>
                         <div class="form-group">
                             <label for="colorFunctionDropDown">Color Function:</label>
-                            <select id="colorFunctionDropDown">
-                                <option value="linear" ng-selected="generator.linearColor">Linear</option>
-                                <option value="xor" ng-selected="generator.xorColor">Xor</option>
-                                <option value="and" ng-selected="generator.andColor">sAnd</option>
+                            <select id="colorFunctionDropDown" ng-model="generator.colorFunctionSel">
+                                <option value="linear">Linear</option>
+                                <option value="xor">Xor</option>
+                                <option value="mod">Mod</option>
+                                <option value="and">And</option>
+                                <option value="sin">Sin</option>
+                                <option value="tan">Tan</option>
                             </select>
                         </div>
                         <br/>
 
                         <div class="form-group">
                             <label for="numberOfPoints">Number of Points:</label>
-                            <input id="numberOfPoints" type="number" min="0" ng-model="generator.points"/>
+                            <input id="numberOfPoints" type="number" min="0" max="1000" ng-model="generator.points"/>
 
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inverted">Invert</label>
+                            <input id="inverted" type="checkbox" ng-model="generator.invert"/>
                         </div>
                         <br/>
                         <button type="submit" class="btn btn-default">Generate</button>
@@ -68,7 +89,5 @@
                 </div>
             </div>
         </div>
-
-
     </body>
 </html>
