@@ -24,6 +24,6 @@ function sinColor(value) {
 }
 
 function tanColor(value) {
-    return [Math.tan(value * .07) * 100, Math.tan(value * .07) * 100, Math.tan(value * .07) * 100, 255];
+    return [Math.tan(value * 30.00) * 100, Math.tan(value * 25.0) * 100, Math.tan(value * 30.07) * 100, 255];
 }
 
